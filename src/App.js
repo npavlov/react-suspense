@@ -1,21 +1,33 @@
-import React, { Suspense } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, useState, useTransition } from 'react';
 import { createApi } from './PersonApi';
 import Person from './Person';
 import Num from './Num';
 
-const api = createApi();
+const initData = createApi();
 
 function App() {
+  const [data, setData] = useState(initData);
+
+  const [startTransition] = useTransition({
+    timeoutMs: 1000000,
+  });
+
+  const execTransition = () => {
+    startTransition(() => {
+      setData(createApi());
+    });
+  };
+
   return (
     <div className='App'>
       <Suspense fallback={<h2>Loading person....</h2>}>
-        <Person data={api} />
+        <Person data={data} />
       </Suspense>
       <Suspense fallback={<h2>Loading num....</h2>}>
-        <Num data={api} />
+        <Num data={data} />
       </Suspense>
+
+      <button onClick={execTransition}>Refresg</button>
     </div>
   );
 }

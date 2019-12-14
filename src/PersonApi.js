@@ -36,7 +36,7 @@ const wrapPromise = promise => {
 
 const randomNumber = () => {
   return new Promise(res =>
-    setTimeout(() => res(Math.ceil(Math.random() * 100)), 3000)
+    setTimeout(() => res(Math.ceil(Math.random() * 100)), 1000)
   );
 };
 
